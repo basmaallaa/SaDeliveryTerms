@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DeliveryTermsBL/DeliveryTermsBL.csproj" />
+  <Project Path="DeliveryTermsDL/DeliveryTermsDL.csproj" />
+  <Project Path="DeliveryTermsPortal/DeliveryTermsPortal.csproj" />
+  <Project Path="DeliveryTermsSL/DeliveryTermsSL.csproj" />
+</Solution>

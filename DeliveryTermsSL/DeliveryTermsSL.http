@@ -1,0 +1,6 @@
+@DeliveryTermsSL_HostAddress = http://localhost:5181
+
+GET {{DeliveryTermsSL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
