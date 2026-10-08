@@ -1,4 +1,7 @@
 
+using DeliveryTermsDL;
+using Microsoft.EntityFrameworkCore;
+
 namespace DeliveryTermsSL
 {
     public class Program
@@ -12,6 +15,9 @@ namespace DeliveryTermsSL
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            builder.Services.AddDbContext<SupplyChainContext>(options =>
+            options.UseOracle(
+                builder.Configuration.GetConnectionString("OracleConnection")));
 
             var app = builder.Build();
 
