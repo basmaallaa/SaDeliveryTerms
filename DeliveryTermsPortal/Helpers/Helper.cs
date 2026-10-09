@@ -15,27 +15,50 @@ namespace DeliveryTermsPortal.Helpers
 
         public static Task<HttpResponseMessage> GetRequest(string url, string? token)
         {
-            return client.SendAsync(Build(HttpMethod.Get, url, null, token));
+            return SendRequest(HttpMethod.Get, url, null, token);
         }
 
         public static Task<HttpResponseMessage> PostRequest(string url, string json, string? token)
         {
-            return client.SendAsync(Build(HttpMethod.Post, url, json, token));
+            return SendRequest(HttpMethod.Post, url, json, token);
         }
 
-        private static HttpRequestMessage Build(HttpMethod method, string url, string? json, string? token)
+        public static Task<HttpResponseMessage> PutRequest(string url, string json, string? token)
+        {
+            return SendRequest(HttpMethod.Put, url, json, token);
+        }
+
+        public static Task<HttpResponseMessage> DeleteRequest(string url, string? token)
+        {
+            return SendRequest(HttpMethod.Delete, url, null, token);
+        }
+
+        //private static HttpRequestMessage Build(HttpMethod method, string url, string? json, string? token)
+        //{
+        //    var req = new HttpRequestMessage(method, url);
+        //    if(json != null)
+        //    {
+        //        req.Content = new StringContent(json, Encoding.UTF8,"application/json");
+        //    }
+        //    if (!string.IsNullOrEmpty(token))
+        //    {
+        //        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        //    }
+
+        //    return req;
+        //}
+        private static Task<HttpResponseMessage> SendRequest(HttpMethod method, string url, string? json, string? token)
         {
             var req = new HttpRequestMessage(method, url);
-            if(json != null)
+            if (json != null)
             {
-                req.Content = new StringContent(json, Encoding.UTF8,"application/json");
+                req.Content = new StringContent(json, Encoding.UTF8, "application/json");
             }
             if (!string.IsNullOrEmpty(token))
             {
                 req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
-            
-            return req;
+            return client.SendAsync(req);
         }
     }
 }

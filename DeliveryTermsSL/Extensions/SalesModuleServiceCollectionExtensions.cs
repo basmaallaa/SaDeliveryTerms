@@ -12,7 +12,6 @@ namespace DeliveryTermsSL.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISaDeliveryTermService, SaDeliveryTermService>();
-            services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             return services;
         }

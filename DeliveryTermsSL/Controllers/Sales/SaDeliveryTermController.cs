@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DeliveryTermsSL.Controllers.Sales
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/Sales/[controller]")]
     [ApiController]
     [AuthorizeCompany]
     [ApiExplorerSettings(GroupName = "Sales")]

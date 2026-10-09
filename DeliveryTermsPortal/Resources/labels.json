@@ -115,5 +115,13 @@
   "9025": {
     "en": "Previous",
     "ar": "السابق"
+  },
+  "9030": {
+    "en": "Please check the entered data.",
+    "ar": "يرجى التحقق من البيانات المدخلة."
+  },
+  "9031": {
+    "en": "The service is unavailable. Please try again.",
+    "ar": "الخدمة غير متاحة، حاول مرة أخرى."
   }
 }

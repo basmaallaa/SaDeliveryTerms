@@ -15,10 +15,8 @@ namespace DeliveryTermsSL.Extensions
                 throw new InvalidOperationException(
                     "Jwt:Key is missing or shorter than 32 characters. Set it with dotnet user-secrets.");
 
-            // token creation lives in the BL
             services.AddScoped<IJwtTokenService, JwtTokenService>();
 
-            // token validation lives here (middleware)
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(o =>

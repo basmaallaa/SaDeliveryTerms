@@ -49,7 +49,7 @@ namespace DeliveryTermsPortal.Pages.Accounts
             }
             catch (HttpRequestException)
             {
-                Error = "Service unavailable. Please try again later.";
+                Error = _localizer["9031"];
                 return Page();
             }
 
