@@ -1,52 +1,48 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{
+    var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var isRtl = lang == "ar";
+    var segments = (Context.Request.Path.Value ?? "").Split('/', StringSplitOptions.RemoveEmptyEntries);
+    var rest = segments.Length > 0 && (segments[0] == "en" || segments[0] == "ar")
+        ? string.Join('/', segments.Skip(1))
+        : string.Join('/', segments);
+    var otherLang = isRtl ? "en" : "ar";
+}
+<!DOCTYPE html>
+<html lang="@(isRtl ? "ar-u-nu-latn" : "en")" dir="@(isRtl ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DeliveryTermsPortal</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DeliveryTermsPortal.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/@(isRtl ? "bootstrap.rtl.min.css" : "bootstrap.min.css")" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">DeliveryTermsPortal</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <nav class="navbar navbar-expand navbar-dark bg-dark px-3">
+        <a class="navbar-brand" href="/@lang/">Axiom</a>
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/@lang/SALES/DELIVERYTERMS/Index">@SharedLocalizer["9001"]</a>
+            </li>
+        </ul>
+        <a class="btn btn-outline-light btn-sm mx-2" href="/@otherLang/@rest@Context.Request.QueryString">
+            @SharedLocalizer["9017"]
+        </a>
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <form method="post" asp-page="/Accounts/Logout" asp-route-culture="@lang" class="d-inline">
+                <button type="submit" class="btn btn-outline-light btn-sm">@SharedLocalizer["9014"]</button>
+            </form>
+        }
+    </nav>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - DeliveryTermsPortal - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    <main class="container-fluid py-3">
+        @RenderBody()
+    </main>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script>window.appCulture = "@lang";</script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
