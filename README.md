@@ -55,5 +55,3 @@ dotnet user-secrets set "DevLogin:Password" "<dev password>" --project DeliveryT
 
 - `AuthorizeCompany` is a simple stand-in (the table has no `COMPANY_CODE`).
 - Label keys 32, 5583, 18, 3, 4, 5 are used as requested; keys from 9001 are my own because the real label table was not available.
-- Swashbuckle is pinned to 9.x (v10 changed the OpenAPI types).
-- Writes use POST with the action name in the route, following the Sales Tax Types pattern.
