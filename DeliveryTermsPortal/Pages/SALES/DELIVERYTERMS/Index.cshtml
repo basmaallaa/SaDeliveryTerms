@@ -1,0 +1,223 @@
+﻿@page
+@model DeliveryTermsPortal.Pages.SALES.DELIVERYTERMS.IndexModel
+@{
+    ViewData["Title"] = SharedLocalizer["9001"];
+    var ok = TempData["SuccessMessage"] as string;
+    var err = TempData["ErrorMessage"] as string;
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0 fw-semibold">@SharedLocalizer["9001"]</h4>
+    <button type="button" class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#addModal">
+        + @SharedLocalizer["32"]
+    </button>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <table id="dataTable" class="table table-hover align-middle w-100">
+            <thead class="table-light">
+                <tr>
+                    <th>@SharedLocalizer["3"]</th>
+                    <th>@SharedLocalizer[isAr ? "5" : "4"]</th>
+                    <th>@SharedLocalizer["9002"]</th>
+                    <th class="text-center">@SharedLocalizer["9003"]</th>
+                    <th class="text-center">@SharedLocalizer["9006"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.Items)
+                {
+                    <tr>
+                        <td>@i.Code.ToString(CultureInfo.InvariantCulture)</td>
+                        <td>@i.Name</td>
+                        <td>@(i.Days?.ToString(CultureInfo.InvariantCulture))</td>
+                        <td class="text-center">
+                            @if (i.ActiveFlag)
+                            {
+                                <span class="badge rounded-pill bg-success-subtle text-success-emphasis status-badge">✓</span>
+                            }
+                            else
+                            {
+                                <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis status-badge">✗</span>
+                            }
+                        </td>
+                        <td class="text-nowrap text-center">
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-edit" data-code="@i.Code">
+                                @SharedLocalizer["5583"]
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-delete" data-code="@i.Code">
+                                @SharedLocalizer["18"]
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" asp-page-handler="Add" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@SharedLocalizer["32"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label" for="add_code">@SharedLocalizer["3"]</label>
+                    <input class="form-control" id="add_code" name="Input.Code" type="number" min="1" max="999" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="add_sname">@SharedLocalizer["5"]</label>
+                    <input class="form-control" id="add_sname" name="Input.SName" maxlength="60" dir="rtl" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="add_bname">@SharedLocalizer["4"]</label>
+                    <input class="form-control" id="add_bname" name="Input.BName" maxlength="60" dir="ltr" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="add_days">@SharedLocalizer["9002"]</label>
+                    <input class="form-control" id="add_days" name="Input.Days" type="number" min="0" max="9999" />
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="add_active" name="Input.ActiveFlag" type="checkbox" value="true" checked />
+                    <input name="Input.ActiveFlag" type="hidden" value="false" />
+                    <label class="form-check-label" for="add_active">@SharedLocalizer["9003"]</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@SharedLocalizer["9005"]</button>
+                <button type="submit" class="btn btn-primary">@SharedLocalizer["9004"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" asp-page-handler="Edit" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@SharedLocalizer["5583"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label" for="edit_code">@SharedLocalizer["3"]</label>
+                    <input class="form-control" id="edit_code" name="Input.Code" type="number" readonly />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit_sname">@SharedLocalizer["5"]</label>
+                    <input class="form-control" id="edit_sname" name="Input.SName" maxlength="60" dir="rtl" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit_bname">@SharedLocalizer["4"]</label>
+                    <input class="form-control" id="edit_bname" name="Input.BName" maxlength="60" dir="ltr" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="edit_days">@SharedLocalizer["9002"]</label>
+                    <input class="form-control" id="edit_days" name="Input.Days" type="number" min="0" max="9999" />
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="edit_active" name="Input.ActiveFlag" type="checkbox" value="true" />
+                    <input name="Input.ActiveFlag" type="hidden" value="false" />
+                    <label class="form-check-label" for="edit_active">@SharedLocalizer["9003"]</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@SharedLocalizer["9005"]</button>
+                <button type="submit" class="btn btn-primary">@SharedLocalizer["9004"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<form id="deleteForm" method="post" asp-page-handler="Delete">
+    <input type="hidden" name="code" id="deleteCode" />
+</form>
+
+<div id="toastArea" class="toast-container position-fixed top-0 end-0 p-3" style="z-index:2000"></div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
+    <style>
+        body {
+            background-color: #f6f7f9;
+        }
+
+        .status-badge {
+            min-width: 2rem;
+            font-size: .9rem;
+        }
+
+        #dataTable thead th {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .modal-header {
+            background-color: #f8f9fa;
+        }
+
+        .modal-content {
+            border: 0;
+            box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.15);
+        }
+
+        /* Search box spans the table width */
+        .dt-search-row {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+            .dt-search-row .dataTables_filter,
+            .dt-search-row .dataTables_filter label {
+                width: 100%;
+                margin: 0;
+            }
+
+                .dt-search-row .dataTables_filter input {
+                    width: 100% !important;
+                    margin: 0 !important;
+                    padding: .6rem 1rem;
+                    border-radius: .5rem;
+                    border: 1px solid #dee2e6;
+                    background-color: #fff;
+                }
+
+                    .dt-search-row .dataTables_filter input:focus {
+                        border-color: #86b7fe;
+                        box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+                        outline: 0;
+                    }
+    </style>
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+    <script>
+        window.datatableTexts = {
+            searchPlaceholder: @Json.Serialize(SharedLocalizer["9007"].ToString()),
+            lengthMenu: @Json.Serialize(SharedLocalizer["9020"].ToString()),
+            info: @Json.Serialize(SharedLocalizer["9021"].ToString()),
+            infoEmpty: @Json.Serialize(SharedLocalizer["9022"].ToString()),
+            zeroRecords: @Json.Serialize(SharedLocalizer["9023"].ToString()),
+            emptyTable: @Json.Serialize(SharedLocalizer["9023"].ToString()),
+            next: @Json.Serialize(SharedLocalizer["9024"].ToString()),
+            previous: @Json.Serialize(SharedLocalizer["9025"].ToString())
+        };
+        window.pageTexts = {
+            confirmTitle: @Json.Serialize(SharedLocalizer["9008"].ToString()),
+            confirmText: @Json.Serialize(SharedLocalizer["9009"].ToString()),
+            confirmYes: @Json.Serialize(SharedLocalizer["9010"].ToString()),
+            cancel: @Json.Serialize(SharedLocalizer["9005"].ToString()),
+            serviceError: @Json.Serialize(SharedLocalizer["9031"].ToString())
+        };
+        window.flash = { success: @Json.Serialize(ok), error: @Json.Serialize(err) };
+    </script>
+    <script src="~/PagesJS/SALES/DELIVERYTERMS.js" asp-append-version="true"></script>
+}

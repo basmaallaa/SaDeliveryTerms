@@ -1,0 +1,32 @@
+﻿@page
+@model DeliveryTermsPortal.Pages.Accounts.LoginModel
+@{
+    ViewData["Title"] = SharedLocalizer["9011"];
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="mb-3">@SharedLocalizer["9011"]</h4>
+
+                @if (!string.IsNullOrEmpty(Model.Error))
+                {
+                    <div class="alert alert-danger">@Model.Error</div>
+                }
+
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Username">@SharedLocalizer["9012"]</label>
+                        <input class="form-control" asp-for="Username" autocomplete="username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" asp-for="Password">@SharedLocalizer["9013"]</label>
+                        <input class="form-control" asp-for="Password" type="password" autocomplete="current-password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">@SharedLocalizer["9011"]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
