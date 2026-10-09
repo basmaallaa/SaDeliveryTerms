@@ -35,7 +35,7 @@ namespace DeliveryTermsBL.Services.SalesService
                         BName = x.BName,
                         Days = x.Days,
                         ActiveFlag = x.ActiveFlag ?? false,
-                        Name = isEnglish ? x.SName : x.BName
+                        Name = isEnglish ? x.BName : x.SName
                     })
                     .ToList();
                 return terms;
