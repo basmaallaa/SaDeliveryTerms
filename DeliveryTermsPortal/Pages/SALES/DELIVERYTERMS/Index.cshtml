@@ -1,0 +1,57 @@
+﻿@page
+@model DeliveryTermsPortal.Pages.SALES.DELIVERYTERMS.IndexModel
+@{
+    ViewData["Title"] = SharedLocalizer["9001"];
+}
+
+<h4 class="mb-3">@SharedLocalizer["9001"]</h4>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<table id="dataTable" class="table table-striped w-100">
+    <thead>
+        <tr>
+            <th>@SharedLocalizer["3"]</th>
+            <th>@SharedLocalizer["5"]</th>
+            <th>@SharedLocalizer["4"]</th>
+            <th>@SharedLocalizer["9002"]</th>
+            <th>@SharedLocalizer["9003"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.Items)
+        {
+            <tr>
+                <td>@i.Code.ToString(CultureInfo.InvariantCulture)</td>
+                <td>@i.SName</td>
+                <td>@i.BName</td>
+                <td>@(i.Days?.ToString(CultureInfo.InvariantCulture))</td>
+                <td>@(i.ActiveFlag ? "✓" : "")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" />
+}
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        window.datatableTexts = {
+            searchPlaceholder: @Json.Serialize(SharedLocalizer["9007"].ToString()),
+            lengthMenu: @Json.Serialize(SharedLocalizer["9020"].ToString()),
+            info: @Json.Serialize(SharedLocalizer["9021"].ToString()),
+            infoEmpty: @Json.Serialize(SharedLocalizer["9022"].ToString()),
+            zeroRecords: @Json.Serialize(SharedLocalizer["9023"].ToString()),
+            emptyTable: @Json.Serialize(SharedLocalizer["9023"].ToString()),
+            next: @Json.Serialize(SharedLocalizer["9024"].ToString()),
+            previous: @Json.Serialize(SharedLocalizer["9025"].ToString())
+        };
+    </script>
+    <script src="~/PagesJS/SALES/DELIVERYTERMS.js" asp-append-version="true"></script>
+}
